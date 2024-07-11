@@ -1,3 +1,5 @@
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using CliFx;
 using CliFx.Attributes;
 using CliFx.Exceptions;
@@ -66,6 +68,42 @@ public class LocateIpCommand() : ICommand
             {
                 Console.WriteLine($"Detailed information\n");
                 Console.WriteLine(ip.ToString());
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new CommandException(ex.Message);
+        }
+    }
+}
+
+[Command("ip config", Description = "Retrieves information about your IP Config.")]
+public class IpConfigCommand() : ICommand
+{
+    public async ValueTask ExecuteAsync(IConsole console)
+    {
+        try
+        {
+            var networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            for (int i = 0; i < networkInterfaces.Length; i++)
+            {
+                var props = networkInterfaces[i].GetIPProperties();
+                WindowsIpConfig config = new
+                (
+                    networkInterfaces[i].Name,
+                    props.UnicastAddresses.FirstOrDefault(x => x.Address.AddressFamily == AddressFamily.InterNetwork)?.Address.ToString(),
+                    props.UnicastAddresses.FirstOrDefault(x => x.Address.AddressFamily == AddressFamily.InterNetwork)?.IPv4Mask.ToString(),
+                    props.GatewayAddresses.FirstOrDefault(x => x.Address.AddressFamily == AddressFamily.InterNetwork)?.Address.ToString(),
+                    props.UnicastAddresses.FirstOrDefault(x => x.Address.AddressFamily == AddressFamily.InterNetworkV6)?.Address.ToString(),
+                    props.GatewayAddresses.FirstOrDefault(x => x.Address.AddressFamily == AddressFamily.InterNetworkV6)?.Address.ToString(),
+                    props.DnsSuffix,
+                    networkInterfaces[i].OperationalStatus
+                );
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine($"{config.Name}\n{string.Concat(Enumerable.Repeat("=", config.Name.Length))}\n");
+                Console.ResetColor();
+                Console.WriteLine(config.ToString());
+                Console.WriteLine("");
             }
         }
         catch (Exception ex)
