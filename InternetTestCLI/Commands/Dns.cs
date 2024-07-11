@@ -19,11 +19,11 @@ public class DnsCommand() : ICommand
     [CommandOption("advanced", 'a', Description = "Display all information for Whois.", IsRequired = false)]
     public bool Advanced { get; init; } = false;
 
-    public async ValueTask ExecuteAsync(IConsole console)
+    public async ValueTask ExecuteAsync(IConsole Console)
     {
         try
         {
-            Console.WriteLine($"Fetching DNS information for {Site}, please wait...");
+            Console.Output.WriteLine($"Fetching DNS information for {Site}, please wait...");
 
             GetDnsInfo(Site);
 

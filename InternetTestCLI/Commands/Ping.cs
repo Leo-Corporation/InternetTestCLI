@@ -16,11 +16,11 @@ public class PingCommand() : ICommand
     [CommandOption("amount", 'a', Description = "The number of ping requests to make.", IsRequired = false)]
     public int Amount { get; init; } = 4;
 
-    public async ValueTask ExecuteAsync(IConsole console)
+    public async ValueTask ExecuteAsync(IConsole Console)
     {
         try
         {
-            Console.WriteLine($"Pinging {Site}...\n");
+            Console.Output.WriteLine($"Pinging {Site}...\n");
             int sent = 0, received = 0;
 
             long[] times = new long[Amount]; // Create an array
@@ -31,7 +31,7 @@ public class PingCommand() : ICommand
                 times[i] = ping.RoundtripTime; // Get the time of the ping
 
                 string nl = $"{i + 1}/{Amount}"; // Add a new line if it's not the last ping
-                Console.WriteLine($"{nl}. Pinging: {ping.Address} ({ping.RoundtripTime}ms)");
+                Console.Output.WriteLine($"{nl}. Pinging: {ping.Address} ({ping.RoundtripTime}ms)");
 
                 if (ping.Status == IPStatus.Success)
                 {
@@ -39,34 +39,34 @@ public class PingCommand() : ICommand
                 }
             }
 
-            Console.WriteLine("");
+            Console.Output.WriteLine("");
 
             // Get the average, minimum, and maximum of the times and print them
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"Average Time: {times.Average():0.00}ms");
+            Console.Output.WriteLine($"Average Time: {times.Average():0.00}ms");
             Console.ResetColor();
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Min Time: {times.Min()}ms");
+            Console.Output.WriteLine($"Min Time: {times.Min()}ms");
             Console.ResetColor();
 
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine($"Max Time: {times.Max()}ms");
+            Console.Output.WriteLine($"Max Time: {times.Max()}ms");
             Console.ResetColor();
 
-            Console.WriteLine("");
+            Console.Output.WriteLine("");
 
             // Print the number of sent, received, and lost pings
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"Sent: {sent}");
+            Console.Output.WriteLine($"Sent: {sent}");
             Console.ResetColor();
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Received: {received}");
+            Console.Output.WriteLine($"Received: {received}");
             Console.ResetColor();
 
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Lost: {sent - received}");
+            Console.Output.WriteLine($"Lost: {sent - received}");
             Console.ResetColor();
         }
         catch (Exception ex)

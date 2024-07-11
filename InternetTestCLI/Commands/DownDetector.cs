@@ -12,11 +12,11 @@ public class DownDetectorTestCommand() : ICommand
     [CommandParameter(0, Name = "site", Description = "Site URL.")]
     public required string Site { get; init; }
 
-    public async ValueTask ExecuteAsync(IConsole console)
+    public async ValueTask ExecuteAsync(IConsole Console)
     {
         try
         {
-            Console.WriteLine($"Test in progress for {Site}, please wait...");
+            Console.Output.WriteLine($"Test in progress for {Site}, please wait...");
 
 
             var statusInfo = await Internet.GetStatusInfoAsync(Site); // Makes a request to the specified website and saves the status code and message
@@ -30,10 +30,10 @@ public class DownDetectorTestCommand() : ICommand
                 _ => Console.ForegroundColor,// Keep the default color for unexpected values
             };
             // Load Information
-            Console.Write("Status Code: "); Console.ForegroundColor = color; Console.Write(statusInfo.StatusCode); Console.ResetColor();
-            Console.WriteLine("");
-            Console.WriteLine($"Status Type: {statusInfo.StatusType}");
-            Console.Write($"Status Message: "); Console.ForegroundColor = color; Console.Write(statusInfo.StatusDescription); Console.ResetColor();
+            Console.Output.Write("Status Code: "); Console.ForegroundColor = color; Console.Output.Write(statusInfo.StatusCode); Console.ResetColor();
+            Console.Output.WriteLine("");
+            Console.Output.WriteLine($"Status Type: {statusInfo.StatusType}");
+            Console.Output.Write($"Status Message: "); Console.ForegroundColor = color; Console.Output.Write(statusInfo.StatusDescription); Console.ResetColor();
         }
         catch (Exception ex)
         {
