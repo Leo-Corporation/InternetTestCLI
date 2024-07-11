@@ -35,9 +35,15 @@ public class MyIpCommand() : ICommand
 public class LocateIpCommand() : ICommand
 {
     [CommandParameter(0, Name = "ip", Description = "The IP address to locate.")]
+
     public required string IP { get; init; }
+
+    [CommandOption("map", 'm', Description = "Only shows the link to see the approximate location on a map.", IsRequired = false)]
+    public bool Map { get; init; } = false;
+
     public async ValueTask ExecuteAsync(IConsole console)
     {
+
         try
         {
             Console.WriteLine($"Getting information for the requested IP, please wait...");
@@ -48,8 +54,19 @@ public class LocateIpCommand() : ICommand
             Console.ResetColor();
             Console.WriteLine("");
 
-            Console.WriteLine($"Detailed information\n");
-            Console.WriteLine(ip.ToString());
+            if (Map)
+            {
+                Console.WriteLine("Map link:");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                var lat = ip.Lat; var lon = ip.Lon;
+                Console.WriteLine($"https://www.openstreetmap.org/directions?engine=graphhopper_foot&route={lat}%2C{lon}%3B{lat}%2C{lon}#map=12/{lat}/{lon}\"");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.WriteLine($"Detailed information\n");
+                Console.WriteLine(ip.ToString());
+            }
         }
         catch (Exception ex)
         {
