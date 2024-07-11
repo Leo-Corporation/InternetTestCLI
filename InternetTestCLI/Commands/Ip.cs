@@ -1,4 +1,3 @@
-using System.Text.Json;
 using CliFx;
 using CliFx.Attributes;
 using CliFx.Exceptions;
@@ -15,7 +14,7 @@ public class MyIpCommand() : ICommand
         try
         {
             Console.WriteLine($"Getting information for your public IP, please wait...");
-            var ip = await GetIPInfoAsync("");
+            var ip = await IPInfo.GetIPInfoAsync("");
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"Your public IP address is {ip.Query}");
@@ -30,13 +29,31 @@ public class MyIpCommand() : ICommand
             throw new CommandException(ex.Message);
         }
     }
-
-    internal async static Task<IPInfo?> GetIPInfoAsync(string ip)
-    {
-        HttpClient httpClient = new();
-        string result = await httpClient.GetStringAsync($"http://ip-api.com/json/{ip}");
-
-        return JsonSerializer.Deserialize<IPInfo>(result);
-    }
 }
 
+[Command("ip locate", Description = "Retrieves information about an IP address with its position.")]
+public class LocateIpCommand() : ICommand
+{
+    [CommandParameter(0, Name = "ip", Description = "The IP address to locate.")]
+    public required string IP { get; init; }
+    public async ValueTask ExecuteAsync(IConsole console)
+    {
+        try
+        {
+            Console.WriteLine($"Getting information for the requested IP, please wait...");
+            var ip = await IPInfo.GetIPInfoAsync(IP);
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"IP address is {ip.Query}");
+            Console.ResetColor();
+            Console.WriteLine("");
+
+            Console.WriteLine($"Detailed information\n");
+            Console.WriteLine(ip.ToString());
+        }
+        catch (Exception ex)
+        {
+            throw new CommandException(ex.Message);
+        }
+    }
+}

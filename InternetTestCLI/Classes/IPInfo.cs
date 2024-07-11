@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace InternetTestCLI.Classes;
@@ -95,5 +96,13 @@ public class IPInfo
             $"Longitude: {Lon}\n" +
             $"Timezone: {TimeZone}\n" +
             $"ISP: {ISP}\n";
+    }
+
+    public async static Task<IPInfo?> GetIPInfoAsync(string ip)
+    {
+        HttpClient httpClient = new();
+        string result = await httpClient.GetStringAsync($"http://ip-api.com/json/{ip}");
+
+        return JsonSerializer.Deserialize<IPInfo>(result);
     }
 }
