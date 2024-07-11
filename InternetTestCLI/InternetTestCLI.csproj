@@ -5,6 +5,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Copyright>© 2024</Copyright>
+    <Company>Léo Corporation</Company>
+    <RepositoryUrl>https://github.com/Leo-Corporation/InternetTestCLI</RepositoryUrl>
+    <PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
 
   <ItemGroup>
