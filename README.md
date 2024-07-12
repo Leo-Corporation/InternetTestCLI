@@ -116,25 +116,25 @@ itcli dns --help
 
 ## Contributing
 
-Thank you for considering contributing to InternetTest Pro! We welcome contributions from the community to help us improve and enhance this utility.
+Thank you for considering contributing to InternetTest CLI! We welcome contributions from the community to help us improve and enhance this utility.
 
 Before you begin, please take a moment to review our [Contribution Guidelines](CONTRIBUTING.md) to understand our process and expectations. These guidelines cover various aspects of contributing, including reporting issues, suggesting new features, and submitting code changes.
 
 ### Requirements
 
-Before you begin contributing to InternetTest Pro, ensure that you have the following prerequisites installed:
+Before you begin contributing to InternetTest CLI, ensure that you have the following prerequisites installed:
 
 - Visual Studio Code or Visual Studio 2022
 - .NET 8 SDK and Runtime
 - Git
 
-These tools and software components are essential for building, testing, and contributing to InternetTest Pro effectively. Make sure to have them set up on your development environment before proceeding with any contributions.
+These tools and software components are essential for building, testing, and contributing to InternetTest CLI effectively. Make sure to have them set up on your development environment before proceeding with any contributions.
 
 ### How to Contribute
 
 1. **Check for Issues:** Before starting work on a new feature or bug fix, check the [issue tracker](https://github.com/Leo-Corporation/InternetTest/issues) to see if it has already been reported or is being worked on.
 
-2. **Fork the Repository:** If you plan to contribute, fork the InternetTest Pro repository to your GitHub account.
+2. **Fork the Repository:** If you plan to contribute, fork the InternetTest CLI repository to your GitHub account.
 
 3. **Create a Branch:** Create a new branch in your forked repository for your work. Choose a descriptive name that reflects the purpose of your contribution.
 
@@ -142,17 +142,17 @@ These tools and software components are essential for building, testing, and con
 
 5. **Testing:** Test your changes thoroughly to ensure they don't introduce any unintended side effects.
 
-6. **Submit a Pull Request:** When you're confident in your changes, submit a pull request to the main InternetTest Pro repository. Be sure to provide a clear and concise explanation of your changes and the problem they address.
+6. **Submit a Pull Request:** When you're confident in your changes, submit a pull request to the main InternetTest CLI repository. Be sure to provide a clear and concise explanation of your changes and the problem they address.
 
 ### Code of Conduct
 
-Please note that by contributing to InternetTest Pro, you are expected to follow our [Code of Conduct](CODE_OF_CONDUCT.md). This ensures a respectful and inclusive environment for everyone involved in the project.
+Please note that by contributing to InternetTest CLI, you are expected to follow our [Code of Conduct](CODE_OF_CONDUCT.md). This ensures a respectful and inclusive environment for everyone involved in the project.
 
-We appreciate your contributions and look forward to working together to improve InternetTest Pro for the community. Your input helps us make the utility better and more effective for users worldwide.
+We appreciate your contributions and look forward to working together to improve InternetTest CLI for the community. Your input helps us make the utility better and more effective for users worldwide.
 
 For more detailed information on how to contribute, refer to our [Contribution Guidelines](CONTRIBUTING.md).
 
-Thank you for being part of the InternetTest Pro community!
+Thank you for being part of the InternetTest CLI community!
 
 ## License
 
