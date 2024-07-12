@@ -85,7 +85,7 @@ public class DnsCommand() : ICommand
                     if (val is null || prop.Name == "Address") continue;
                     regInfo += $"\t{prop.Name} - {val}\n";
                 }
-                Console.WriteLine("\nRegistrant Information:");
+                Console.WriteLine("Registrant Information:");
                 Console.WriteLine(regInfo);
             }
 
