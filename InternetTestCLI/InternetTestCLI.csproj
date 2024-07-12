@@ -9,6 +9,7 @@
     <Company>Léo Corporation</Company>
     <RepositoryUrl>https://github.com/Leo-Corporation/InternetTestCLI</RepositoryUrl>
     <PublishSingleFile>true</PublishSingleFile>
+    <AssemblyName>itcli</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
