@@ -33,7 +33,7 @@ public class DownDetectorTestCommand() : ICommand
             Console.Output.Write("Status Code: "); Console.ForegroundColor = color; Console.Output.Write(statusInfo.StatusCode); Console.ResetColor();
             Console.Output.WriteLine("");
             Console.Output.WriteLine($"Status Type: {statusInfo.StatusType}");
-            Console.Output.Write($"Status Message: "); Console.ForegroundColor = color; Console.Output.Write(statusInfo.StatusDescription); Console.ResetColor();
+            Console.Output.Write($"Status Message: "); Console.ForegroundColor = color; Console.Output.Write(statusInfo.StatusDescription + "\n"); Console.ResetColor();
         }
         catch (Exception ex)
         {
