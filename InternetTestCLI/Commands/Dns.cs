@@ -19,6 +19,9 @@ public class DnsCommand() : ICommand
     [CommandOption("advanced", 'a', Description = "Display all information for Whois.", IsRequired = false)]
     public bool Advanced { get; init; } = false;
 
+    [CommandOption("record-types", 'r', Description = "Only display the provided record types.", IsRequired = false)]
+    public DnsClient.Protocol.ResourceRecordType[] RecordTypes { get; init; }
+
     public async ValueTask ExecuteAsync(IConsole Console)
     {
         try
@@ -59,7 +62,8 @@ public class DnsCommand() : ICommand
             var result = lookup.QueryAsync(website, QueryType.ANY).Result;
             foreach (var record in result.AllRecords)
             {
-                Console.WriteLine($"{record.RecordType} - {record}");
+                if (RecordTypes.Contains(record.RecordType))
+                    Console.WriteLine($"{record.RecordType} - {record}");
             }
 
             // Display WHOIS
