@@ -15,7 +15,12 @@
     <PackageReference Include="CliFx" Version="2.3.5" />
     <PackageReference Include="DnsClient" Version="1.8.0" />
     <PackageReference Include="PeyrSharp.Core" Version="2.1.0.2312" />
+    <PackageReference Include="PeyrSharp.Env" Version="2.1.0.2312" />
     <PackageReference Include="Whois" Version="3.0.1" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <DefineConstants>_WINDOWS</DefineConstants>
+  </PropertyGroup>
 
 </Project>
