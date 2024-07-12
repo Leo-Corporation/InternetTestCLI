@@ -11,10 +11,10 @@
     <img src=".github/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h1 align="center">InternetTest</h3>
+  <h1 align="center">InternetTest CLI</h3>
 
   <p align="center">
-    Taking you to another level.<br /> InternetTest can locate IP addresses, send ping request, recover your WiFi passwords and more!
+    Network-related command line tools.<br /> InternetTest CLI is a command line interface that provides the same features of InternetTest Pro. It can locate IP addresses, send ping request, get DNS information and more!
     <br />
     <a href="https://github.com/Leo-Corporation/InternetTestCLI/issues/new?assignees=&labels=bug&template=bug-report.yml&title=%5BBug%5D+">Report Bug</a>
     ·
