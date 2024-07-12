@@ -34,7 +34,7 @@ public class DnsCommand() : ICommand
         }
     }
 
-    private async void GetDnsInfo(string website)
+    private void GetDnsInfo(string website)
     {
 
         try
