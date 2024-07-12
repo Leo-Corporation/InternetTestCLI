@@ -68,5 +68,27 @@ public class RequestCommand() : ICommand
             Console.WriteLine(header[1] + "\n");
             Console.ResetColor();
         }
+
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("\nStatus");
+        Console.WriteLine("======\n");
+        Console.ResetColor();
+
+
+        var color = (int)response.StatusCode switch
+        {
+            var code when code >= 100 && code < 200 => ConsoleColor.Blue,// Informational
+            var code when code >= 200 && code < 300 => ConsoleColor.Green,// Success
+            var code when code >= 300 && code < 400 => ConsoleColor.Yellow,// Redirection
+            var code when code >= 400 && code < 500 => ConsoleColor.Red,// ClientError
+            var code when code >= 500 && code < 600 => ConsoleColor.DarkRed,// ServerError
+            _ => Console.ForegroundColor,// Keep the default color for unexpected values
+        };
+
+
+        Console.Write("Status Code: "); Console.ForegroundColor = color; Console.Write((int)response.StatusCode); Console.ResetColor();
+        Console.WriteLine("");
+        Console.Write($"Status Message: "); Console.ForegroundColor = color; Console.Write(response.StatusDescription + "\n"); Console.ResetColor();
+
     }
 }
