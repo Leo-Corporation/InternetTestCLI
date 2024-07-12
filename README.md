@@ -29,8 +29,6 @@
 
 ![Banner](.github/images/banner.png)
 
-# InternetTest CLI v1.0.0
-
 InternetTest CLI is a command line interface that provides the same features as InternetTest Pro. It can locate IP addresses, send ping requests, get DNS information, and more!
 
 ## Features
