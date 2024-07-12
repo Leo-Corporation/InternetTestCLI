@@ -22,7 +22,7 @@ public class RequestCommand() : ICommand
     {
         try
         {
-            Console.Output.WriteLine($"Executing a {Method} request for {URL}, please wait...");
+            if (!ContentOnly) Console.Output.WriteLine($"Executing a {Method} request for {URL}, please wait...");
             await ExecuteRequest(Method, URL);
 
 
@@ -40,10 +40,13 @@ public class RequestCommand() : ICommand
         var request = new RestRequest("", method);
 
         var response = await client.ExecuteAsync(request);
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("\nResponse Content");
-        Console.WriteLine("================\n");
-        Console.ResetColor();
+        if (!ContentOnly)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\nResponse Content");
+            Console.WriteLine("================\n");
+            Console.ResetColor();
+        }
         Console.WriteLine(response.Content);
 
         if (ContentOnly) return;
