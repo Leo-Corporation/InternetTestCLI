@@ -16,10 +16,20 @@ public class DownDetectorTestCommand() : ICommand
     {
         try
         {
-            Console.Output.WriteLine($"Test in progress for {Site}, please wait...");
+            string url = Site;
+            if (!(url.Contains("https://") || url.Contains("http://")))
+            {
+                Console.Output.WriteLine("The protocol was not specified, assuming that it is HTTPS.");
+                url = "https://" + url;
+            }
+            Console.Output.WriteLine($"Test in progress for {url}, please wait...");
 
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Output.WriteLine("\nStatus");
+            Console.Output.WriteLine("======\n");
+            Console.ResetColor();
 
-            var statusInfo = await Internet.GetStatusInfoAsync(Site); // Makes a request to the specified website and saves the status code and message
+            var statusInfo = await Internet.GetStatusInfoAsync(url); // Makes a request to the specified website and saves the status code and message
             var color = statusInfo.StatusCode switch
             {
                 var code when code >= 100 && code < 200 => ConsoleColor.Blue,// Informational
