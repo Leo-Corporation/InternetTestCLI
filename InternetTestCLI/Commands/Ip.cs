@@ -60,7 +60,8 @@ public class LocateIpCommand() : ICommand
             {
                 Console.Output.WriteLine("Map link:");
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                var lat = ip.Lat; var lon = ip.Lon;
+                var lat = ip.Lat.ToString().Replace(",", "."); var lon = ip.Lon.ToString().Replace(",", ".");
+
                 Console.Output.WriteLine($"https://www.openstreetmap.org/directions?engine=graphhopper_foot&route={lat}%2C{lon}%3B{lat}%2C{lon}#map=12/{lat}/{lon}\"");
                 Console.ResetColor();
             }
