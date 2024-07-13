@@ -7,6 +7,7 @@
     <Nullable>enable</Nullable>
     <Copyright>© 2024</Copyright>
     <Company>Léo Corporation</Company>
+    <Version>1.0.0.2407</Version>
     <RepositoryUrl>https://github.com/Leo-Corporation/InternetTestCLI</RepositoryUrl>
     <PublishSingleFile>true</PublishSingleFile>
     <AssemblyName>itcli</AssemblyName>
