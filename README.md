@@ -100,7 +100,7 @@ Execute a traceroute for a website:
 itcli trace example.com
 ```
 
-Retrieve your saved WiFi passwords:
+Retrieve your saved WiFi passwords (Windows only):
 
 ```sh
 itcli wifi password
