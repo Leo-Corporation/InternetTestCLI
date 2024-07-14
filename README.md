@@ -1,7 +1,7 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/Leo-Corporation/InternetTestCLI)
 ![GitHub issues](https://img.shields.io/github/issues/Leo-Corporation/InternetTestCLI)
 ![GitHub](https://img.shields.io/github/license/Leo-Corporation/InternetTestCLI)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Leo-Corporation/InternetTestCLI/dotnet-core-desktop.yml?branch=main)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Leo-Corporation/InternetTestCLI/dotnet.yml?branch=main)
 ![Using PeyrSharp](https://img.shields.io/badge/using-PeyrSharp-DD00FF?logo=nuget)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Leo-Corporation/InternetTestCLI)
 <br />
