@@ -16,6 +16,8 @@
   <p align="center">
     Network-related command line tools.<br /> InternetTest CLI is a command line interface that provides the same features of InternetTest Pro. It can locate IP addresses, send ping request, get DNS information and more!
     <br />
+    <a href="https://github.com/Leo-Corporation/InternetTestCLI/wiki"><strong>Wiki »</strong></a>
+    <br />
     <a href="https://github.com/Leo-Corporation/InternetTestCLI/issues/new?assignees=&labels=bug&template=bug-report.yml&title=%5BBug%5D+">Report Bug</a>
     ·
     <a href="https://github.com/Leo-Corporation/InternetTestCLI/issues/new?assignees=&labels=enhancement&template=feature-request.yml&title=%5BEnhancement%5D+">Request Feature</a>
