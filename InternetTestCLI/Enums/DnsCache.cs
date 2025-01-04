@@ -1,4 +1,4 @@
-/*
+﻿/*
 MIT License
 
 Copyright (c) Léo Corporation
@@ -21,10 +21,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. 
 */
-
-namespace InternetTestCLI.Classes;
-
-public static class Global
+namespace InternetTestCLI.Enums;
+public enum Types
 {
-    public static string Version => "1.1.0.2501";
+	A = 1,
+	NS = 2,
+	CNAME = 5,
+	SOA = 6,
+	PTR = 12,
+	MX = 15,
+	TXT = 16,
+	AAAA = 28,
+}
+
+public enum Status
+{
+	Success,
+	NoRecords,
+	FormatError = 9501,
+	ServerFailure = 9502,
+	NotExist = 9503,
+	Refused = 9505
 }

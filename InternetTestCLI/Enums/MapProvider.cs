@@ -1,4 +1,4 @@
-/*
+﻿/*
 MIT License
 
 Copyright (c) Léo Corporation
@@ -21,10 +21,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. 
 */
-
-namespace InternetTestCLI.Classes;
-
-public static class Global
+namespace InternetTestCLI.Enums;
+public enum MapProvider
 {
-    public static string Version => "1.1.0.2501";
+	Google = 2,
+	Microsoft = 1,
+	Here = 3,
+	OpenStreetMap = 0,
+	Yandex = 4
 }

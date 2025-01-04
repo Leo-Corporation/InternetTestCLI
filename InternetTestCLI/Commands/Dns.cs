@@ -23,96 +23,236 @@ SOFTWARE.
 */
 
 
+using System.Diagnostics;
 using System.Net;
 using CliFx;
 using CliFx.Attributes;
 using CliFx.Exceptions;
 using CliFx.Infrastructure;
 using DnsClient;
+using InternetTestCLI.Classes;
 using Whois;
+using BetterConsoleTables;
+using InternetTestCLI.Enums;
+using System.Drawing;
 
 namespace InternetTestCLI.Commands;
 
 [Command("dns", Description = "Gets DNS informations about a domain name.")]
 public class DnsCommand() : ICommand
 {
-    [CommandParameter(0, Name = "site", Description = "Site URL.")]
-    public required string Site { get; init; }
+	[CommandParameter(0, Name = "site", Description = "Site URL.")]
+	public required string Site { get; init; }
 
-    [CommandOption("advanced", 'a', Description = "Display all information for Whois.", IsRequired = false)]
-    public bool Advanced { get; init; } = false;
+	[CommandOption("advanced", 'a', Description = "Display all information for Whois.", IsRequired = false)]
+	public bool Advanced { get; init; } = false;
 
-    [CommandOption("record-types", 'r', Description = "Only display the provided record types.", IsRequired = false)]
-    public DnsClient.Protocol.ResourceRecordType[] RecordTypes { get; init; }
+	[CommandOption("record-types", 'r', Description = "Only display the provided record types.", IsRequired = false)]
+	public DnsClient.Protocol.ResourceRecordType[] RecordTypes { get; init; }
 
-    public async ValueTask ExecuteAsync(IConsole Console)
-    {
-        try
-        {
-            Console.Output.WriteLine($"Fetching DNS information for {Site}, please wait...");
+	public async ValueTask ExecuteAsync(IConsole Console)
+	{
+		try
+		{
+			Console.Output.WriteLine($"Fetching DNS information for {Site}, please wait...");
 
-            GetDnsInfo(Site);
+			GetDnsInfo(Site);
 
-        }
-        catch (Exception ex)
-        {
-            throw new CommandException(ex.Message);
-        }
-    }
+		}
+		catch (Exception ex)
+		{
+			throw new CommandException(ex.Message);
+		}
+	}
 
-    private void GetDnsInfo(string website)
-    {
-        // Get WHOIS
-        var whois = new WhoisLookup();
-        var response = whois.Lookup(website);
+	private void GetDnsInfo(string website)
+	{
+		// Get WHOIS
+		var whois = new WhoisLookup();
+		var response = whois.Lookup(website);
 
-        // Get IP
-        IPHostEntry host = Dns.GetHostEntry(website);
-        IPAddress ip = host.AddressList[0];
+		// Get IP
+		IPHostEntry host = Dns.GetHostEntry(website);
+		IPAddress ip = host.AddressList[0];
 
-        Console.WriteLine($"IP Address: {ip}");
-        Console.WriteLine("");
+		Console.WriteLine($"IP Address: {ip}");
+		Console.WriteLine("");
 
-        // Get DNS records
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine($"DNS Records");
-        Console.WriteLine($"===========");
-        Console.ResetColor();
-        var lookup = new LookupClient();
-        var result = lookup.QueryAsync(website, QueryType.ANY).Result;
-        foreach (var record in result.AllRecords)
-        {
-            if (RecordTypes is not null && !RecordTypes.Contains(record.RecordType)) continue;
-            Console.WriteLine($"{record.RecordType} - {record}");
-        }
+		// Get DNS records
+		Console.ForegroundColor = ConsoleColor.Cyan;
+		Console.WriteLine($"DNS Records");
+		Console.WriteLine($"===========");
+		Console.ResetColor();
+		var lookup = new LookupClient();
+		var result = lookup.QueryAsync(website, QueryType.ANY).Result;
+		foreach (var record in result.AllRecords)
+		{
+			if (RecordTypes is not null && !RecordTypes.Contains(record.RecordType)) continue;
+			Console.WriteLine($"{record.RecordType} - {record}");
+		}
 
-        // Display WHOIS
-        Console.WriteLine("");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine($"WHOIS");
-        Console.WriteLine($"=====");
-        Console.ResetColor();
+		// Display WHOIS
+		Console.WriteLine("");
+		Console.ForegroundColor = ConsoleColor.Cyan;
+		Console.WriteLine($"WHOIS");
+		Console.WriteLine($"=====");
+		Console.ResetColor();
 
-        if (Advanced)
-        {
-            Console.WriteLine(response.Content);
-        }
-        else
-        {
-            Console.WriteLine($"Creation: {response.Registered}");
-            Console.WriteLine($"Expires: {response.Expiration}");
-            Console.WriteLine($"Status:\n\t{string.Join("\n\t", response.DomainStatus)}");
-            string regInfo = "";
-            foreach (var prop in response.Registrant.GetType().GetProperties())
-            {
-                var val = prop.GetValue(response.Registrant, null);
-                if (val is null || prop.Name == "Address") continue;
-                regInfo += $"\t{prop.Name} - {val}\n";
-            }
-            Console.WriteLine("Registrant Information:");
-            Console.WriteLine(regInfo);
-        }
+		if (Advanced)
+		{
+			Console.WriteLine(response.Content);
+		}
+		else
+		{
+			Console.WriteLine($"Creation: {response.Registered}");
+			Console.WriteLine($"Expires: {response.Expiration}");
+			Console.WriteLine($"Status:\n\t{string.Join("\n\t", response.DomainStatus)}");
+			string regInfo = "";
+			foreach (var prop in response.Registrant.GetType().GetProperties())
+			{
+				var val = prop.GetValue(response.Registrant, null);
+				if (val is null || prop.Name == "Address") continue;
+				regInfo += $"\t{prop.Name} - {val}\n";
+			}
+			Console.WriteLine("Registrant Information:");
+			Console.WriteLine(regInfo);
+		}
 
-    }
+	}
 
 }
+
+#if _WINDOWS
+[Command("dns cache", Description = "Gets the DNS cache.")]
+public class DnsCacheCommand() : ICommand
+{
+	[CommandOption("clear", 'c', Description = "Clears the DNS cache.", IsRequired = false)]
+	public bool Clear { get; init; } = false;
+	public async ValueTask ExecuteAsync(IConsole Console)
+	{
+
+		if (Clear)
+		{
+			Console.ForegroundColor = ConsoleColor.Yellow;
+			Console.Output.WriteLine("Are you sure you want to clear the DNS cache? (y/n): ");
+			var key = Console.ReadKey().Key;
+			if (key != ConsoleKey.Y)
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.Output.WriteLine("\nOperation cancelled.");
+				Console.ResetColor();
+				return;
+			}
+
+			Console.Output.WriteLine("\nClearing DNS cache, please wait...");
+			ProcessStartInfo processInfo = new()
+			{
+				FileName = "ipconfig",
+				Arguments = "/flushdns",
+				RedirectStandardOutput = true,
+				RedirectStandardError = true,
+				UseShellExecute = false,
+				CreateNoWindow = true
+			};
+
+			using Process process = Process.Start(processInfo);
+			// Read the output from the command
+			string output = process.StandardOutput.ReadToEnd();
+			string error = process.StandardError.ReadToEnd();
+
+			// Wait for the process to exit
+			process.WaitForExit();
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.Output.WriteLine("DNS cache cleared successfully.");
+			Console.ResetColor();
+		}
+
+		try
+		{
+			Console.ForegroundColor = ConsoleColor.Cyan;
+			Console.Output.WriteLine("Fetching DNS cache, please wait...");
+			Console.ForegroundColor = ConsoleColor.Yellow;
+
+			var cache = await GetDnsCache();
+
+			if (cache != null)
+			{
+				// Define the headers with alignment for each column
+				ColumnHeader[] headers = [
+					new ColumnHeader("Entry", Alignment.Left),
+					new ColumnHeader("Record Name", Alignment.Left),
+					new ColumnHeader("Type", Alignment.Center),
+					new ColumnHeader("Status", Alignment.Center),
+					new ColumnHeader("Data", Alignment.Left)
+				];
+
+				// Initialize the table with the headers
+				Table table = new(headers)
+				{
+					Config = TableConfiguration.MySqlSimple() // Simple MySQL-style table formatting
+				};
+
+				// Define a function to format the "Status" column based on its value
+				
+
+				// Add rows to the table
+				foreach (var item in cache)
+				{
+					if (item is null) continue;
+
+					table.AddRow(
+						item.Entry ?? "",                             
+						item.Name ?? "",                           
+						(Types)item.Type,
+						(Status)item.Status,       
+						item.Data ?? ""
+					);
+				}
+
+				// Print the table
+				Console.Output.WriteLine(table.ToString());
+				Console.ForegroundColor = ConsoleColor.White;
+			}
+		}
+		catch (Exception ex)
+		{
+			throw new CommandException(ex.Message + ex.StackTrace + ex.InnerException + ex.Source);
+		}
+	}
+	public static async Task<DnsCacheInfo[]> GetDnsCache()
+	{
+		// The PowerShell command to execute
+		string psCommand = "Get-DnsClientCache | ConvertTo-Json -Depth 4";
+
+		// Capture the JSON output asynchronously
+		string json = await RunPowerShellCommandAsync(psCommand);
+		return DnsCacheInfo.FromJson(json);
+	}
+
+	public static async Task<string> RunPowerShellCommandAsync(string psCommand)
+	{
+		// Create a new process to run PowerShell
+		ProcessStartInfo processInfo = new()
+		{
+			FileName = "powershell.exe",
+			Arguments = $"-Command \"{psCommand}\"",
+			RedirectStandardOutput = true,
+			RedirectStandardError = true,
+			UseShellExecute = false,
+			CreateNoWindow = true
+		};
+
+		// Start the PowerShell process
+		using Process process = Process.Start(processInfo);
+
+		// Asynchronously read the output from the process
+		string output = await process.StandardOutput.ReadToEndAsync();
+
+		// Wait for the process to complete asynchronously
+		await process.WaitForExitAsync();
+
+		// Return the JSON output
+		return output;
+	}
+}
+#endif
