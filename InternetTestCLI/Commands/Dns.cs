@@ -122,6 +122,7 @@ public class DnsCommand() : ICommand
 
 }
 
+#if _WINDOWS
 [Command("dns cache", Description = "Gets the DNS cache.")]
 public class DnsCacheCommand() : ICommand
 {
@@ -217,3 +218,4 @@ public class DnsCacheCommand() : ICommand
 		return output;
 	}
 }
+#endif
