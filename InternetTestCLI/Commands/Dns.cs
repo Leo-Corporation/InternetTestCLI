@@ -130,9 +130,46 @@ public class DnsCacheCommand() : ICommand
 	public bool Clear { get; init; } = false;
 	public async ValueTask ExecuteAsync(IConsole Console)
 	{
+
+		if (Clear)
+		{
+			Console.ForegroundColor = ConsoleColor.Yellow;
+			Console.Output.WriteLine("Are you sure you want to clear the DNS cache? (y/n): ");
+			var key = Console.ReadKey().Key;
+			if (key != ConsoleKey.Y)
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.Output.WriteLine("\nOperation cancelled.");
+				Console.ResetColor();
+				return;
+			}
+
+			Console.Output.WriteLine("\nClearing DNS cache, please wait...");
+			ProcessStartInfo processInfo = new()
+			{
+				FileName = "ipconfig",
+				Arguments = "/flushdns",
+				RedirectStandardOutput = true,
+				RedirectStandardError = true,
+				UseShellExecute = false,
+				CreateNoWindow = true
+			};
+
+			using Process process = Process.Start(processInfo);
+			// Read the output from the command
+			string output = process.StandardOutput.ReadToEnd();
+			string error = process.StandardError.ReadToEnd();
+
+			// Wait for the process to exit
+			process.WaitForExit();
+			Console.ForegroundColor = ConsoleColor.Green;
+			Console.Output.WriteLine("DNS cache cleared successfully.");
+			Console.ResetColor();
+		}
+
 		try
 		{
-			Console.ForegroundColor = ConsoleColor.Cyan;	
+			Console.ForegroundColor = ConsoleColor.Cyan;
 			Console.Output.WriteLine("Fetching DNS cache, please wait...");
 			Console.ForegroundColor = ConsoleColor.Yellow;
 
@@ -150,7 +187,7 @@ public class DnsCacheCommand() : ICommand
 				];
 
 				// Initialize the table with the headers
-				Table table = new Table(headers)
+				Table table = new(headers)
 				{
 					Config = TableConfiguration.MySqlSimple() // Simple MySQL-style table formatting
 				};
