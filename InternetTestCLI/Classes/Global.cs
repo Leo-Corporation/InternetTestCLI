@@ -26,5 +26,5 @@ namespace InternetTestCLI.Classes;
 
 public static class Global
 {
-    public static string Version => "1.0.0.2407";
+    public static string Version => "1.1.0.2501";
 }
