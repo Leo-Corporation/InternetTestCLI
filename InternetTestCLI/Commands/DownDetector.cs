@@ -34,15 +34,24 @@ namespace InternetTestCLI.Commands;
 [Command("downdetector", Description = "Checks if a website is down.")]
 public class DownDetectorTestCommand() : ICommand
 {
-    [CommandParameter(0, Name = "sites", Description = "Site URLs.")]
-    public required string[] Sites { get; init; }
+	[CommandParameter(0, Name = "sites", Description = "Site URLs.", IsRequired = false)]
+	public string[] Sites { get; init; } = [];
 
-    public async ValueTask ExecuteAsync(IConsole Console)
-    {
-        try
-        {
-            foreach (var site in Sites)
-            {
+	[CommandOption("filepath", 'f', Description = "Add this flag to specify to InternetTest CLI that you provided a file instead of a list of URLs.", IsRequired = false)]
+	public bool FilePath { get; init; } = false;
+
+	public async ValueTask ExecuteAsync(IConsole Console)
+	{
+		try
+		{
+			string[] websites = Sites;
+			if (FilePath && File.Exists(Sites[0]))
+			{
+				websites = File.ReadAllLines(Sites[0]);
+			}
+
+			foreach (var site in websites)
+			{
 				string url = site;
 				if (!(url.Contains("https://") || url.Contains("http://")))
 				{
@@ -73,10 +82,10 @@ public class DownDetectorTestCommand() : ICommand
 				Console.Output.WriteLine($"Status Type: {statusInfo.StatusType}");
 				Console.Output.Write($"Status Message: "); Console.ForegroundColor = color; Console.Output.Write(statusInfo.StatusDescription + "\n"); Console.ResetColor();
 			}
-        }
-        catch (Exception ex)
-        {
-            throw new CommandException(ex.Message);
-        }
-    }
+		}
+		catch (Exception ex)
+		{
+			throw new CommandException(ex.Message);
+		}
+	}
 }
